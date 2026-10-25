@@ -31,6 +31,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Test security guards
+        run: npm test
+
       - name: Build static site for GitHub Pages
         env:
           NODE_ENV: production

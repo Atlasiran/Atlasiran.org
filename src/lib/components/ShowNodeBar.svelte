@@ -6,7 +6,7 @@
     import { onMount } from "svelte";
     import ForceAtlas2 from "graphology-layout-forceatlas2";
     import { goto } from "$app/navigation";
-    import { base } from "$app/paths";
+    import { base } from "$lib/sitePaths";
 
     export let subgraph;
     export let closePanel = () => {};

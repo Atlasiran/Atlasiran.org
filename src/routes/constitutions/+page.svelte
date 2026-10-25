@@ -1,6 +1,6 @@
 <script>
     import Seo from "@/components/Seo.svelte";
-    import { base } from "$app/paths";
+    import { base } from "$lib/sitePaths";
     import { onDestroy, onMount } from "svelte";
 
     // The constitutions corpus (modules/constitutions) is built into

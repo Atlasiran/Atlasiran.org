@@ -1,6 +1,6 @@
 <script>
     import Seo from "@/components/Seo.svelte";
-    import { base } from "$app/paths";
+    import { base } from "$lib/sitePaths";
     import * as Card from "$lib/components/ui/card/index.js";
     import ListAllGroups from "@/components/ListAllGroups.svelte";
     import { onMount } from "svelte";

@@ -1,5 +1,4 @@
 <script>
-    import { page } from "$app/stores";
     import Globe from "lucide-svelte/icons/globe";
     import {
         siteTitle,
@@ -8,7 +7,7 @@
     } from "../../../content/configs";
     import AuthButton from "$lib/components/AuthButton.svelte";
     import Github from "lucide-svelte/icons/github";
-    import { base } from "$app/paths";
+    import { base } from "$lib/sitePaths";
 
     export let haederLinks = defaultHeaderLinks;
     export let _socialLinks = socialLinks;

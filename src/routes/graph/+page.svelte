@@ -1,7 +1,7 @@
 <script lang="ts">
     import Seo from "@/components/Seo.svelte";
     import { goto } from "$app/navigation";
-    import { base } from "$app/paths";
+    import { base } from "$lib/sitePaths";
     import { Button } from "$lib/components/ui/button/index";
     import ShowNodeBar from "@/components/ShowNodeBar.svelte";
     import Graph from "graphology";

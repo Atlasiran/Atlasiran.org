@@ -2,20 +2,23 @@
     import { onMount } from "svelte";
     import Button from "@/components/ui/button/button.svelte";
     import Globe from "lucide-svelte/icons/globe";
-    import { page } from "$app/stores";
+    import { page } from "$app/state";
+    import { afterNavigate } from '$app/navigation';
     import * as Sheet from "$lib/components/ui/sheet";
     import { SheetClose } from "$lib/components/ui/sheet";
     import Menu from "lucide-svelte/icons/menu";
     import { defaultHeaderLinks, siteTitle } from "../../../content/configs";
     import Logo from "$lib/icons/Logo.svelte";
     import AuthButton from "$lib/components/AuthButton.svelte";
-    import { base } from "$app/paths";
+    import { base } from "$lib/sitePaths";
 
     export let haederLinks = defaultHeaderLinks;
     export let style = 2;
 
     let isSticky = false;
     let scrollY;
+    let pathname = page.url.pathname;
+    afterNavigate(() => { pathname = page.url.pathname; });
 
     $: {
         if (scrollY > 20) {
@@ -48,8 +51,8 @@
                 {#each haederLinks as { name, link }, idx (idx)}
                     <a
                         href="{base}{link}"
-                        class:active-link={$page.url.pathname === link}
-                        class:not-active-link={$page.url.pathname !== link}
+                        class:active-link={pathname === link}
+                        class:not-active-link={pathname !== link}
                         class="my-4 text-lg"
                     >
                         {name}
@@ -73,8 +76,8 @@
             {#each haederLinks as { name, link }, idx (idx)}
                 <a
                     href="{base}{link}"
-                    class:active-link={$page.url.pathname === link}
-                    class:not-active-link={$page.url.pathname !== link}
+                    class:active-link={pathname === link}
+                    class:not-active-link={pathname !== link}
                     class="my-4 text-sm"
                 >
                     {name}
@@ -127,7 +130,7 @@
                 {#each haederLinks as { name, link }, idx (idx)}
                     <a
                         href="{base}{link}"
-                        class:desktop-nav-active={$page.url.pathname === link}
+                        class:desktop-nav-active={pathname === link}
                         class="desktop-nav-link"
                     >
                         {name}

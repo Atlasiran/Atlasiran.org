@@ -1,9 +1,10 @@
 <script>
     import { goto } from "$app/navigation";
-    import { base } from "$app/paths";
+    import { base } from "$lib/sitePaths";
     import * as Card from "$lib/components/ui/card/index.js";
     import * as Tooltip from "$lib/components/ui/tooltip/index.js";
     import { authStore } from "$lib/stores/authStore";
+    import { safeSitePath, safeWebUrl } from "$lib/safeUrl";
     import Button from "@/components/ui/button/button.svelte";
     import Loading from "@/components/ui/loading/Loading.svelte";
     import InstagramIcon from "@/icons/InstagramIcon.svelte";
@@ -70,22 +71,24 @@
     }
 
     function handleCardClick(e) {
-        if (!pageLink) {
+        const path = safeSitePath(pageLink);
+        if (!path) {
             return;
         }
-        goto(`${base}${pageLink}`);
+        goto(`${base}${path}`);
     }
 
     function gotoPage(link) {
         return (e) => {
-            if (!link || typeof window === "undefined") {
+            const url = safeWebUrl(link);
+            if (!url || typeof window === "undefined") {
                 return;
             }
 
             e.preventDefault();
             e.stopPropagation();
 
-            window.open(link, "_blank");
+            window.open(url, "_blank", "noopener,noreferrer");
         };
     }
 

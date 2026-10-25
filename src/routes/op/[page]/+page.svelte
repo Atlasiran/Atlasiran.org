@@ -1,5 +1,6 @@
 <script>
-    import { base } from "$app/paths";
+    import { base } from "$lib/sitePaths";
+    import { safeDocumentUrl, safeWebUrl } from '$lib/safeUrl';
     import Footer from "@/components/layout/Footer.svelte";
     import Header from "@/components/layout/Header.svelte";
     import OrgPageLayout from "@/components/layout/OrgPageLayout.svelte";
@@ -34,10 +35,11 @@
         const listMatch = value.match(/^\[['"](.+?)['"]\]$/);
         if (listMatch) value = listMatch[1];
         if (!defined(value)) return null;
-        if (value.startsWith("http://") || value.startsWith("https://"))
-            return value;
+        const externalUrl = safeWebUrl(value);
+        if (externalUrl) return externalUrl;
+        if (/^[a-z][a-z\d+.-]*:/i.test(value)) return null;
         const handle = value.startsWith("@") ? value.slice(1) : value;
-        return `${base}${handle}`;
+        return safeWebUrl(`${base}${handle}`);
     }
 
     const links = {
@@ -49,15 +51,12 @@
         bluesky: socialUrl(m.social_bluesky, "https://bsky.app/profile/"),
         linkedin: socialUrl(m.social_linkedin, "https://linkedin.com/"),
         tiktok: socialUrl(m.social_tiktok, "https://tiktok.com/@"),
-        web:
-            defined(m.internetAddress) && m.internetAddress.startsWith("http")
-                ? m.internetAddress
-                : null,
+        web: safeWebUrl(m.internetAddress),
     };
 
     function isDocumentLink(value) {
         if (!defined(value)) return false;
-        return (
+        return !!safeDocumentUrl(value) && (
             value.startsWith("http://") ||
             value.startsWith("https://") ||
             value.startsWith("/") ||
@@ -68,11 +67,8 @@
     }
 
     function documentLink(value) {
-        if (value.startsWith("http://") || value.startsWith("https://")) {
-            return value;
-        }
-        const normalized = value.startsWith("/") ? value : `/${value}`;
-        return `${base}${normalized}`;
+        const safe = safeDocumentUrl(value);
+        return safe?.startsWith('/') ? `${base}${safe}` : safe;
     }
 
     function defined(v) {
@@ -329,9 +325,9 @@
                         <p
                             class="text-[rgba(30,58,107,0.72)] text-sm leading-relaxed break-words"
                         >
-                            {#if m.about && m.about.startsWith("http")}
+                            {#if safeWebUrl(m.about)}
                                 <a
-                                    href={m.about}
+                                    href={safeWebUrl(m.about)}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     class="inline-flex items-center gap-1 text-[#1E3A6B] underline hover:opacity-70"

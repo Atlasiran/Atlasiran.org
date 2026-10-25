@@ -1,4 +1,5 @@
 <script>
+    import { safeWebUrl } from '$lib/safeUrl';
     export let title;
     export let created_at;
     export let updated_at;
@@ -83,9 +84,13 @@
         </div>
         <div>
             <b>نشانی وب‌سایت:</b>
-            <a href={internetAddress} class="text-blue-500" dir="ltr"
-                >{internetAddress}</a
-            >
+            {#if safeWebUrl(internetAddress)}
+                <a href={safeWebUrl(internetAddress)} class="text-blue-500" dir="ltr"
+                    >{internetAddress}</a
+                >
+            {:else}
+                <span>{internetAddress}</span>
+            {/if}
         </div>
         <div>
             <b>ایمیل:</b>

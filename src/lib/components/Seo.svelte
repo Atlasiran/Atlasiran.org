@@ -1,16 +1,19 @@
 <script>
     // One complete set of title, description and share tags for a page. Crawlers keep the first
     // og:title they see, so the layout sets none and every page renders this instead.
-    import { page } from "$app/stores";
+    import { page } from "$app/state";
+    import { afterNavigate } from '$app/navigation';
     import { siteName, siteDescription, siteUrl } from "../../content/configs";
 
     export let title = "";
     export let description = siteDescription;
     export let image = `${siteUrl}/og-image.jpg`;
     export let type = "website";
+    let pathname = page.url.pathname;
+    afterNavigate(() => { pathname = page.url.pathname; });
 
     $: fullTitle = title ? `${title} | ${siteName}` : siteName;
-    $: url = siteUrl + $page.url.pathname.split("/").map((s) => encodeURIComponent(decodeURIComponent(s))).join("/");
+    $: url = siteUrl + pathname.split("/").map((s) => encodeURIComponent(decodeURIComponent(s))).join("/");
 </script>
 
 <svelte:head>

@@ -6,7 +6,7 @@
     import ListAllGroups from "@/components/ListAllGroups.svelte";
     import { onMount } from "svelte";
     // Import CreateNewModal
-    import { base } from "$app/paths";
+    import { base } from "$lib/sitePaths";
     import { deleteEntity, fixNamesInDB, getEntities } from "$lib/api";
     import { authStore } from "$lib/stores/authStore";
 

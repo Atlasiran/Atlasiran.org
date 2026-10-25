@@ -1,4 +1,4 @@
-import { base } from '$app/paths';
+import { base } from '$lib/sitePaths';
 
 export const load = async ({ url, fetch }) => {
     const postRes = await fetch(`${url.origin}${base}/api/pages.json`)
